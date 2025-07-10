@@ -16,6 +16,9 @@ export default function Sidebar() {
   const [activeLoadingLink, setActiveLoadingLink] = useState<string | null>(
     null
   );
+  const [activeSubLoadingLink, setActiveSubLoadingLink] = useState<
+    string | null
+  >(null);
   const [expandedItem, setExpandedItem] = useState<number | null>(null);
   const { isCollapse, setUserDetails } = useUserContext();
 
@@ -61,7 +64,11 @@ export default function Sidebar() {
           isClose || collapse ? "w-[62px]" : "w-[230px]"
         }`}
       >
-        <div className={`relative bg-[#ffff] w-full h-12 ${collapse ? "hidden" : ""}`}>
+        <div
+          className={`relative bg-[#ffff] w-full h-12 ${
+            collapse ? "hidden" : ""
+          }`}
+        >
           {!collapse && (
             <div
               onClick={handleSidebar}
@@ -146,6 +153,7 @@ export default function Sidebar() {
                     const SubIcon = sub.icon;
                     const isSubActive = pathname === `/${sub.link}`;
                     const isSubLoading = activeLoadingLink === sub.link;
+                    const isLoading = activeSubLoadingLink === item.link;
 
                     return (
                       <div
@@ -157,6 +165,11 @@ export default function Sidebar() {
                           isSubActive ? "bg-[#439B8C]" : ""
                         }`}
                       >
+                        {isLoading && (
+                          <div className="absolute inset-0 flex justify-center items-center bg-[#ffffff38] rounded-xl">
+                            <Loading strokeColor="green" />
+                          </div>
+                        )}
                         {isSubLoading && <Loading strokeColor="green" />}
                         <SubIcon
                           color={`${isSubActive ? "#fff" : "black"}`}
